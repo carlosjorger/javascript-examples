@@ -5,8 +5,8 @@ export class NumberRange {
     this.currentValue = firstNumber;
   }
   next() {
-    if (this.currentValue < this.lastNumber) {
-      return { value: ++this.currentValue, done: false };
+    if (this.currentValue <= this.lastNumber) {
+      return { value: this.currentValue++, done: false };
     }
     return { value: undefined, done: true };
   }
