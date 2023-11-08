@@ -6,25 +6,26 @@ export const scheduleMeeting = (
 ) => {
   const [hourStart, minuteStart] = getHourAndMinutes(dayStart);
   const [hourEnd, minuteEnd] = getHourAndMinutes(dayEnd);
-  const [hourCurrent, minuteCurrent] = getHourAndMinutes(startTime);
-  if (hourStart > Number(hourCurrent) || hourEnd < Number(hourCurrent)) {
+  const [hourStartMeeting, minuteStartMeeting] = getHourAndMinutes(startTime);
+  if (
+    hourStart > Number(hourStartMeeting) ||
+    (hourStart == Number(hourStartMeeting) && minuteStartMeeting < minuteStart)
+  ) {
     return false;
   }
-  if (hourStart == Number(hourCurrent) && minuteCurrent < minuteStart) {
-    return false;
-  }
-  const restMinuteEndMeeting = Number(minuteCurrent) + durationMinutes;
+  const restMinuteEndMeeting = Number(minuteStartMeeting) + durationMinutes;
   const hourEndMeeting =
-    Number(hourCurrent) + Math.floor(restMinuteEndMeeting / 60);
+    Number(hourStartMeeting) + Math.floor(restMinuteEndMeeting / 60);
   const minuteEndMeeting = restMinuteEndMeeting % 60;
-  if (hourEndMeeting > hourEnd) {
-    return false;
-  }
-  if (hourEnd == hourEndMeeting && minuteEndMeeting > minuteEnd) {
+  if (
+    hourEnd < hourEndMeeting ||
+    (hourEnd == hourEndMeeting && minuteEndMeeting > minuteEnd)
+  ) {
     return false;
   }
   return true;
 };
+
 const getHourAndMinutes = (date) => {
   return date.split(":");
 };
