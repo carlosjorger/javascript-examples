@@ -13,3 +13,8 @@ test("scheduleMeeting is working properly", () => {
   expect(scheduleMeeting(dayStart, dayEnd, "18:00", 15)).toBe(false);
   expect(scheduleMeeting(dayStart, dayEnd, "16:36", 15)).toBe(true);
 });
+test("a time with one hour less may exceed the dayEnd", () => {
+  const dayStart = "07:30";
+  const dayEnd = "17:45";
+  expect(scheduleMeeting(dayStart, dayEnd, "16:50", 60)).toBe(false);
+});
